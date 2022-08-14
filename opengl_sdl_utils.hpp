@@ -4,18 +4,29 @@
 #include <GL/glew.h>
 #include <SDL.h>
 #include <SDL_image.h>
-#include <GL/glew.h>
-#if defined(IMGUI_IMPL_OPENGL_ES2)
+//#include <GL/glew.h>
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
 #include <SDL_opengles2.h>
 #else
 #include <SDL_opengl.h>
 #endif
 
+#define GLM_FORCE_PURE
+#ifndef __EMSCRIPTEN__
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/quaternion.hpp>
+#else
+#include <glm.hpp>
+#include <gtc/type_ptr.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtx/transform.hpp>
+#include <gtc/quaternion.hpp>
+#endif
 
 #include <iostream>
 #include <vector>
