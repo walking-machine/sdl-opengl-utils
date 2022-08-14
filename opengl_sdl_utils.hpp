@@ -4,14 +4,11 @@
 #include <GL/glew.h>
 #include <SDL.h>
 #include <SDL_image.h>
-//#include <GL/glew.h>
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
-#include <SDL_opengles2.h>
-#else
-#include <SDL_opengl.h>
 #endif
+#include <SDL_opengl.h>
 
 #define GLM_FORCE_PURE
 #ifndef __EMSCRIPTEN__
@@ -62,7 +59,7 @@ struct minimal_context_cfg
 };
 
 SDL_GLContext create_context(SDL_Window *window);
-SDL_GLContext create_context(SDL_Window *window, const minimal_context_cfg *cfg);
+SDL_GLContext create_context(SDL_Window *window, minimal_context_cfg *cfg);
 
 /* Loading opengl textures with SDL_image */
 GLuint load_tex(std::string path);

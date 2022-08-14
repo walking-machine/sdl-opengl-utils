@@ -20,7 +20,7 @@ void printProgramLog(int prog) {
     char *log;
     glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &len);
     if (len > 0) {
-		log = (char *)malloc(len);
+		log = (char *)malloc(len * sizeof(char));
 		glGetProgramInfoLog(prog, len, &chWrittn, log);
 		std::cout << "Program Info Log: " << log << std::endl;
 		free(log);
@@ -142,12 +142,19 @@ GLuint create_program(std::vector<GLuint> shaders)
     return program;
 }
 
-SDL_GLContext create_context(SDL_Window *window, const minimal_context_cfg *cfg)
+SDL_GLContext create_context(SDL_Window *window, minimal_context_cfg *cfg)
 {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
                         !cfg->use_deprecated_api ? SDL_GL_CONTEXT_PROFILE_CORE :
                         SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+#ifdef __EMSCRIPTEN__
+    cfg->v_major = std::min(cfg->v_major, 3);
+    cfg->v_minor = cfg->v_major == 3 ? 0 : cfg->v_minor;
+    std::cout << "Warning: for WebGL compatibility version set to " <<
+                 cfg->v_major << "." << cfg->v_minor << " ES\n";
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+#endif
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, cfg->v_major);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, cfg->v_minor);
 
