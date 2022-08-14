@@ -22,7 +22,8 @@ void printProgramLog(int prog) {
     if (len > 0) {
 		log = (char *)malloc(len * sizeof(char));
 		glGetProgramInfoLog(prog, len, &chWrittn, log);
-		std::cout << "Program Info Log: " << log << std::endl;
+		std::cout << "Program Info Log (" << chWrittn << "," << len << "):" <<
+                     std::string(log, len) << std::endl;
 		free(log);
     }
 }
