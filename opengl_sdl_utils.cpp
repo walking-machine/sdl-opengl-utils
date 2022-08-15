@@ -71,8 +71,8 @@ void fill_tex_with_image(std::string path, GLuint texture,
         return;
     }
 
-    glTexImage2D(img_target, 0, GL_RGBA, surf->w, surf->h, 0, data_fmt,
-                 GL_UNSIGNED_BYTE, surf->pixels);
+    glTexImage2D(img_target, 0, data_fmt, surf->w, surf->h, 0, data_fmt,
+                 GL_UNSIGNED_BYTE, surf->pixels);\
     checkOpenGLError();
 
     SDL_FreeSurface(surf);
