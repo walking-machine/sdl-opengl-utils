@@ -1,4 +1,4 @@
-#include "opengl_sdl_utils.hpp"
+#include "gl_sdl_utils.hpp"
 #include <fstream>
 
 void printShaderLog(GLuint shader) {
@@ -118,18 +118,23 @@ GLuint load_cubemap(std::vector<std::string> file_paths)
     return cubemap;
 }
 
+GLuint read_shader(const char *shader_src, unsigned int flags) {
+    GLuint shader = glCreateShader(flags);
+
+    glShaderSource(shader, 1, &shader_src, NULL);
+    glCompileShader(shader);
+    printShaderLog(shader);
+    return shader;
+}
+
 GLuint read_shader(std::string shader_path, unsigned int flags)
 {
     std::ifstream in(shader_path);
     std::string code_str((std::istreambuf_iterator<char>(in)),
                          std::istreambuf_iterator<char>());
 
-    GLuint shader = glCreateShader(flags);
     const char *c_str = (GLchar *)code_str.c_str();
-    glShaderSource(shader, 1, &c_str, NULL);
-    glCompileShader(shader);
-    printShaderLog(shader);
-    return shader;
+    return read_shader(c_str, flags);
 }
 
 GLuint create_program(std::vector<GLuint> shaders)
@@ -137,6 +142,17 @@ GLuint create_program(std::vector<GLuint> shaders)
     GLuint program = glCreateProgram();
     for (auto shader : shaders) {
         glAttachShader(program, shader);
+    }
+    glLinkProgram(program);
+    printProgramLog(program);
+    return program;
+}
+
+GLuint create_program(const GLuint *shaders, uint num_shaders)
+{
+    GLuint program = glCreateProgram();
+    for (uint i = 0; i < num_shaders; i++) {
+        glAttachShader(program, shaders[i]);
     }
     glLinkProgram(program);
     printProgramLog(program);

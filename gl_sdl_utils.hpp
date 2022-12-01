@@ -1,5 +1,5 @@
-#ifndef OPENGL_SDL_UTILS_H
-#define OPENGL_SDL_UTILS_H
+#ifndef GL_SDL_UTILS_H
+#define GL_SDL_UTILS_H
 
 #include <GL/glew.h>
 #include <SDL.h>
@@ -34,10 +34,10 @@ void printShaderLog(GLuint shader);
 void printProgramLog(int prog);
 bool checkOpenGLError();
 
-GLuint read_shader(std::string shader_name, unsigned int flags);
+GLuint read_shader(std::string shader_path, unsigned int flags);
+GLuint read_shader(const char *shader_src, unsigned int flags);
 GLuint create_program(std::vector<GLuint> shaders);
-
-/* SDL window with opengl context */
+GLuint create_program(const GLuint *shaders, uint num_shaders);
 
 /* Those are in bits */
 struct channel_sizes
