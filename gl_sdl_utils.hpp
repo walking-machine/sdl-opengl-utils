@@ -51,11 +51,8 @@ struct channel_sizes
 
 struct minimal_context_cfg
 {
-    int v_major = 3;
-    int v_minor = 2;
-    channel_sizes sizes = {};
+    channel_sizes sizes;
     bool use_double_buffer = true;
-    bool use_deprecated_api = false;
 };
 
 SDL_GLContext create_context(SDL_Window *window);

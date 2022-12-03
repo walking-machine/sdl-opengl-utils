@@ -162,23 +162,14 @@ GLuint create_program(const GLuint *shaders, uint num_shaders)
 SDL_GLContext create_context(SDL_Window *window, minimal_context_cfg *cfg)
 {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
-                        !cfg->use_deprecated_api ? SDL_GL_CONTEXT_PROFILE_CORE :
-                        SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
-#ifdef __EMSCRIPTEN__
-    cfg->v_major = std::min(cfg->v_major, 3);
-    cfg->v_minor = cfg->v_major == 3 ? 0 : cfg->v_minor;
-    std::cout << "Warning: for WebGL compatibility version set to " <<
-                 cfg->v_major << "." << cfg->v_minor << " ES\n";
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-#endif
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, cfg->v_major);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, cfg->v_minor);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 
     SDL_GL_SetAttribute(SDL_GL_RED_SIZE, cfg->sizes.red);
     SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, cfg->sizes.green);
     SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, cfg->sizes.blue);
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, cfg->use_double_buffer ? 1 : 0);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, cfg->use_double_buffer);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, cfg->sizes.depth);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, cfg->sizes.stencil);
 
