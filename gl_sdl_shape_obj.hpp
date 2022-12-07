@@ -16,8 +16,10 @@ protected:
     bool transformed = false;
     color draw_color = { 125, 125, 125 };
     bool draw_border = false;
+    bool fill_in = true;
     virtual void apply_transform_internal() = 0; /* Without this, collision calls would need to compute a true position every time */
     virtual void draw_internal() = 0;
+    virtual void draw_border_internal() = 0;
 public:
     shape() { phi = 0; origin = {0,0}; }
     void draw();
@@ -28,6 +30,7 @@ public:
     bool intersects_tri(shape_tri *tri) { throw std::runtime_error("NOT IMPLEMENTED"); }
     void set_color(color new_color) { draw_color = new_color; }
     void set_draw_border(bool draw_border) { this->draw_border = draw_border; }
+    void set_fill_in(bool fill_in) { this->fill_in = fill_in; }
 
     void apply_transform() {
         transformed = false;
@@ -70,6 +73,7 @@ public:
     virtual bool contains_point(point p) override;
     virtual bool intersects_with(shape *shape) override { return shape->intersects_circle(this); }
     virtual bool intersects_circle(shape_circle *circle) override;
+    virtual void draw_border_internal() override;
 };
 
 class shape_rect : public shape {
@@ -84,6 +88,7 @@ public:
     virtual bool contains_point(point p) override;
     virtual bool intersects_with(shape *shape) override { return shape->intersects_rect(this); }
     virtual bool intersects_circle(shape_circle *circle) override;
+    virtual void draw_border_internal() override;
 };
 
 class shape_tri : public shape {
@@ -98,6 +103,7 @@ public:
     virtual bool contains_point(point p) override;
     virtual bool intersects_with(shape *shape) override { return shape->intersects_tri(this); }
     virtual bool intersects_circle(shape_circle *circle) override;
+    virtual void draw_border_internal() override;
 };
 
 /* TODO : move the below to shape_utils.h? */

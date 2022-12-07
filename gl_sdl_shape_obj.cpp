@@ -6,7 +6,17 @@
 
 void shape::draw() {
     set_draw_color(&draw_color);
-    draw_internal();
+    if (fill_in)
+        draw_internal();
+    if (draw_border) {
+        /* Use complementary color for borders */
+        color border_color = { (Uint8)((Uint8)255 - draw_color.r),
+                               (Uint8)((Uint8)255 - draw_color.g),
+                               (Uint8)((Uint8)255 - draw_color.b),
+                               draw_color.a };
+        set_draw_color(&border_color);
+        draw_border_internal();
+    }
 }
 
 void shape_circle::apply_transform_internal()
@@ -21,6 +31,13 @@ void shape_circle::draw_internal()
     //  set_rot_angle(phi);
     set_rot_angle(0);
     draw_circle(&data);
+}
+
+void shape_circle::draw_border_internal()
+{
+    set_offset(&origin);
+    set_rot_angle(0);
+    draw_circle_border(&data);
 }
 
 bool shape_circle::contains_point(point p)
@@ -87,6 +104,13 @@ void shape_rect::draw_internal()
     draw_rect(&data);
 }
 
+void shape_rect::draw_border_internal()
+{
+    set_offset(&origin);
+    set_rot_angle(0);
+    draw_rect_border(&data);
+}
+
 bool shape_rect::contains_point(point p)
 {
     if (!transformed)
@@ -119,6 +143,13 @@ void shape_tri::draw_internal()
     set_offset(&origin);    /* TODO : Pass all points by value */
     set_rot_angle(phi);
     draw_tri(&data);
+}
+
+void shape_tri::draw_border_internal()
+{
+    set_offset(&origin);
+    set_rot_angle(phi);
+    draw_tri_border(&data);
 }
 
 bool shape_tri::contains_point(point p)
