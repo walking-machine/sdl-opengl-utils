@@ -34,6 +34,12 @@ public:
         apply_transform_internal();
     }
 
+    void reset_transform() {
+        transformed = false;
+        phi = 0.f;
+        origin = { 0,0 };
+    }
+
     void rotate(float rotation_angle) {
         phi += rotation_angle;
         transformed = true;
@@ -58,7 +64,8 @@ protected:
     bool intersects_tri(tri *neighbor);
     bool intersects_another_circle(circle *neighbor);
 public:
-    shape_circle(point center, float r) : shape(), data { center, r } {}
+    shape_circle(circle original) : shape(), data { original } {}
+    shape_circle(point center, float r) : shape_circle(circle{center, r}) {}
     shape_circle(float r) : shape_circle({0,0}, r) {}
     virtual bool contains_point(point p) override;
     virtual bool intersects_with(shape *shape) override { return shape->intersects_circle(this); }
