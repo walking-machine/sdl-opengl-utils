@@ -5,6 +5,8 @@
 #include <iostream>
 
 void shape::draw() {
+    if (!enabled)
+        return;
     set_draw_color(&draw_color);
     if (fill_in)
         draw_internal();
@@ -17,6 +19,13 @@ void shape::draw() {
         set_draw_color(&border_color);
         draw_border_internal();
     }
+}
+
+bool shape::contains_point(point p)
+{
+    if (!enabled)
+        return false;
+    return contains_point_internal(p);
 }
 
 void shape_circle::apply_transform_internal()
@@ -40,7 +49,7 @@ void shape_circle::draw_border_internal()
     draw_circle_border(&data);
 }
 
-bool shape_circle::contains_point(point p)
+bool shape_circle::contains_point_internal(point p)
 {
     if (!transformed)
         return point_in_circle(p, &data);
@@ -111,7 +120,7 @@ void shape_rect::draw_border_internal()
     draw_rect_border(&data);
 }
 
-bool shape_rect::contains_point(point p)
+bool shape_rect::contains_point_internal(point p)
 {
     if (!transformed)
         return point_in_rect(p, &data);
@@ -152,7 +161,7 @@ void shape_tri::draw_border_internal()
     draw_tri_border(&data);
 }
 
-bool shape_tri::contains_point(point p)
+bool shape_tri::contains_point_internal(point p)
 {
     if (!transformed)
         return point_in_tri(p, &data);
