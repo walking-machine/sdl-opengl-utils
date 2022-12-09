@@ -111,7 +111,7 @@ int start_2d(space_2d *space)
 
 int set_draw_color(color *color)
 {
-    GLuint progs[] = { prog_rect, prog_normal };
+    GLuint progs[] = { prog_rect /*, prog_normal*/ };
     GLfloat f_color[] = { color->r / 255.0f, color->g / 255.0f,
                           color->b / 255.0f, color->a / 255.0f };
 
@@ -254,4 +254,13 @@ int draw_circle_border(circle *circle)
 void set_line_width(float w)
 {
     glLineWidth(w);
+}
+
+float get_h_to_w_aspect()
+{
+    GLint vp_rect[4];
+    glGetIntegerv(GL_VIEWPORT, vp_rect);
+
+    float aspect = (float)vp_rect[3] / (float)vp_rect[2];
+    return aspect;
 }
