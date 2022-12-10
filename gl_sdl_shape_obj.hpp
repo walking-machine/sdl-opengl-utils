@@ -38,6 +38,8 @@ public:
     void apply_transform() {
         transformed = false;
         apply_transform_internal();
+        phi = 0;
+        origin = {0,0};
     }
 
     void reset_transform() {
@@ -77,6 +79,7 @@ public:
     virtual bool intersects_with(shape *shape) override { return shape->intersects_circle(this); }
     virtual bool intersects_circle(shape_circle *circle) override;
     virtual void draw_border_internal() override;
+    circle get_data() { return data; }
 };
 
 class shape_rect : public shape {
