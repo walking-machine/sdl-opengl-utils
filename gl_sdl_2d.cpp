@@ -251,6 +251,17 @@ int draw_circle_border(circle *circle)
     return 0;
 }
 
+int draw_line(line *line)
+{
+    GLfloat verts[4] = {line->start.x, line->start.y,
+                        line->end.x, line->end.y};
+
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, verts);
+    glEnableVertexAttribArray(0);
+    glDrawArrays(GL_LINE_STRIP, 0, 2);
+    return 0;
+}
+
 void set_line_width(float w)
 {
     glLineWidth(w);

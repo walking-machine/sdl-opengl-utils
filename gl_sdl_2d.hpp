@@ -26,7 +26,6 @@ int draw_line(line *line);
 int draw_tri_border(tri *tri);
 int draw_rect_border(rect *rect);
 int draw_circle_border(circle *circle);
-int draw_line_border(line *line);
 
 void set_line_width(float w);
 float get_h_to_w_aspect();
