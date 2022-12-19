@@ -68,9 +68,6 @@ private:
 protected:
     virtual void apply_transform_internal() override;
     virtual void draw_internal() override;
-    bool intersects_rect(rect *neighbor);
-    bool intersects_tri(tri *neighbor);
-    bool intersects_another_circle(circle *neighbor);
 public:
     shape_circle(circle original) : shape(), data { original } {}
     shape_circle(point center, float r) : shape_circle(circle{center, r}) {}
@@ -79,6 +76,9 @@ public:
     virtual bool intersects_with(shape *shape) override { return shape->intersects_circle(this); }
     virtual bool intersects_circle(shape_circle *circle) override;
     virtual void draw_border_internal() override;
+    bool intersects_rect(rect *neighbor);
+    bool intersects_tri(tri *neighbor);
+    bool intersects_another_circle(circle *neighbor);
     circle get_data() { return data; }
 };
 
