@@ -49,5 +49,6 @@ bool point_in_tri(point p, tri *tri);
 bool intersect(circle *circle_1, circle *circle_2);
 bool intersect(circle *circle, rect *rect);
 bool intersect(circle *circle, tri *tri);
+bool intersect(circle *circle, line *line);
 
 #endif

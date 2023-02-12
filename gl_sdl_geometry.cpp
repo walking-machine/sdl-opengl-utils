@@ -138,3 +138,9 @@ bool intersect(circle *circle, tri *tri)
            line_point_dist_sq(tri->points[1], tri->points[2], circle->center) < r2 ||
            line_point_dist_sq(tri->points[2], tri->points[0], circle->center) < r2;
 }
+
+bool intersect(circle *circle, line *line)
+{
+    float r2 = circle->radius * circle->radius;
+    return line_point_dist_sq(line->start, line->end, circle->center) < r2;
+}

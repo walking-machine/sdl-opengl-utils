@@ -34,6 +34,16 @@ public:
     void set_draw_border(bool draw_border) { this->draw_border = draw_border; }
     void set_fill_in(bool fill_in) { this->fill_in = fill_in; }
     void set_enabled(bool enable) { this->enabled = enable; }
+    point get_offset() { return origin; }
+    float get_rotation() { return phi; }
+    void set_origin(point offset) {
+        origin = offset;
+        transformed = true;
+    }
+    void set_rotation(float angle) {
+        phi = angle;
+        transformed = true;
+    }
 
     void apply_transform() {
         transformed = false;
@@ -71,7 +81,7 @@ protected:
 public:
     shape_circle(circle original) : shape(), data { original } {}
     shape_circle(point center, float r) : shape_circle(circle{center, r}) {}
-    shape_circle(float r) : shape_circle({0,0}, r) {}
+    shape_circle(float r = 5.f) : shape_circle({0,0}, r) {}
     virtual bool contains_point_internal(point p) override;
     virtual bool intersects_with(shape *shape) override { return shape->intersects_circle(this); }
     virtual bool intersects_circle(shape_circle *circle) override;
